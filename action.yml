@@ -40,10 +40,7 @@ runs:
       run: |
         curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
         echo "/home/runner/jpm/bin" >> $GITHUB_PATH
-        echo $PATH
-        echo $GITHUB_PATH
-        ./home/runner/jpm/bin/blade version
-        blade version
+        /home/runner/jpm/bin/blade version
     - name: Cache Gradle Packages
       uses: actions/cache@v3
       with:
