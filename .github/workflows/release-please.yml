@@ -28,7 +28,7 @@ jobs:
       - name: Build & Verify Checksum
         id: build-verify-checksum
         run: |
-          md5sum bin/go-build.new | cut -c -32 > go-build.new.md5
+          md5sum bin/go-build.new | cut -c -32 > bin/go-build.new.md5
           checksum=$(cat bin/go-build.md5)
           newChecksum=$(cat bin/go-build.new.md5)
           if [ $newChecksum = $checkSum ]; then
