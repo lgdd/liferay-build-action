@@ -8,4 +8,13 @@ jobs:
   test-main:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Blade
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+          echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+      - name: Create Liferay Workspace
+        run: |
+          blade init -v 7.4 ${{ env.GITHUB_ACTION_PATH }}/liferay-workspace
       - uses: lgdd/liferay-build-action@main
+        with:
+          workspace-directory: ${{ env.GITHUB_ACTION_PATH }}/liferay-workspace
