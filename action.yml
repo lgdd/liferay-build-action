@@ -1,0 +1,46 @@
+name: "Liferay Build"
+description: ""
+author: "lgdd"
+
+branding:
+  icon: "loader"
+  color: "blue"
+
+inputs:
+  java-version:
+    description: >
+      Java version (default: '11')
+      Check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix.
+    required: true
+    default: "11"
+  java-distribution:
+    description: >
+      Java distribution (default: 'zulu')
+      List of supported distributions for the setup-java action: https://github.com/actions/setup-java#supported-distributions
+      Also check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix
+    required: true
+    default: "zulu"
+  workspace-directory:
+    description: >
+      Path to your workspace if different from root directory.
+      It will be use in this actions steps for the 'working-directory' directive.
+    required: false
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: ${{ inputs.java-distribution }}
+        java-version: ${{ inputs.java-version }}
+    - name: Cache Gradle Packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
