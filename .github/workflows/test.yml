@@ -14,7 +14,7 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          blade init -v 7.4 ${{ env.GITHUB_ACTION_PATH }}/liferay-workspace
+          blade init -v 7.4 liferay-workspace
       - uses: lgdd/liferay-build-action@main
         with:
-          workspace-directory: ${{ env.GITHUB_ACTION_PATH }}/liferay-workspace
+          workspace-directory: ./liferay-workspace
