@@ -35,23 +35,9 @@ runs:
       with:
         distribution: ${{ inputs.java-distribution }}
         java-version: ${{ inputs.java-version }}
+        cache: 'gradle'
     - name: Set up Blade
       shell: bash
       run: |
         curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
         echo "/home/runner/jpm/bin" >> $GITHUB_PATH
-        /home/runner/jpm/bin/blade version
-    - name: Test Blade
-      shell: bash
-      run: |
-        echo $GITHUB_PATH
-        blade version
-    - name: Cache Gradle Packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
