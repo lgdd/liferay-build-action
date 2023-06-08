@@ -7,11 +7,6 @@ branding:
   color: "blue"
 
 inputs:
-  build-tool:
-    description: >
-      Tool ("gradle" or "maven") to use to build the workspace.
-    required: true
-    default: "gradle"
   java-version:
     description: >
       Java version (default: '11')
