@@ -30,7 +30,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: cp ${{ github.action_path }}/bin/go-build /usr/local/bin/ && chmod +x /usr/local/bin/go-build
+    - run: cp ${{ github.action_path }}/bin/go-build /home/runner/.local/bin && chmod +x /usr/local/bin/go-build
       shell: bash
     - name: Set up JDK
       uses: actions/setup-java@v3
