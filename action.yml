@@ -7,6 +7,11 @@ branding:
   color: "blue"
 
 inputs:
+  build-tool:
+    description: >
+      Tool ("gradle" or "maven") to use to build the workspace.
+    required: true
+    default: "gradle"
   java-version:
     description: >
       Java version (default: '11')
@@ -35,9 +40,14 @@ runs:
       with:
         distribution: ${{ inputs.java-distribution }}
         java-version: ${{ inputs.java-version }}
-        cache: 'gradle'
+        cache: "gradle"
     - name: Set up Blade
       shell: bash
       run: |
         curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
         echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+    - name: Build Workspace
+      shell: bash
+      working-directory: ${{ inputs.workspace-directory }}
+      run: |
+        blade gw build
