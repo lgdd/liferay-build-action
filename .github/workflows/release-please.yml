@@ -28,6 +28,7 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/lgdd/liferay-build-action.git"
           git add bin/go-build
+          git update-index --chmod=+x bin/go-build
           git commit -am "chore: update go binary" || echo "Binary doesn't need to be updated."
           git push
       - uses: google-github-actions/release-please-action@v3
