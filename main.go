@@ -1,7 +1,38 @@
 package main
 
-import "fmt"
+import (
+	"os"
+	"os/exec"
+)
 
 func main() {
-	fmt.Println("hello world")
+	buildTool := getBuildTool()
+	buildCmd := getBuildCmd(buildTool)
+	runCmd(buildCmd)
+}
+
+func runCmd(command string, args ...string) {
+	cmd := exec.Command(command, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func getBuildTool() string {
+	if _, err := os.Stat("pom.xml"); !os.IsNotExist(err) {
+		return "mvn"
+	}
+	return "gradle"
+}
+
+func getBuildCmd(buildTool string) string {
+	if buildTool == "mvn" {
+		return "package"
+	}
+	return "build"
 }
