@@ -31,7 +31,7 @@ jobs:
           md5sum bin/go-build.new | cut -c -32 > bin/go-build.new.md5
           checksum=$(cat bin/go-build.md5)
           newChecksum=$(cat bin/go-build.new.md5)
-          if [ $newChecksum = $checkSum ]; then
+          if [[ "$newChecksum" = "$checkSum" ]]; then
             echo "need_push=false" >> "$GITHUB_OUTPUT"
             rm bin/go-build.new
             rm bin/go-build.new.md5
@@ -40,7 +40,7 @@ jobs:
             rm bin/go-build
             rm bin/go-build.md5
             mv bin/go-build.new bin/go-build
-            mv bin/go-build.md5 bin/go-build.md5
+            mv bin/go-build.new.md5 bin/go-build.md5
           fi;
       - name: Push Binary
         if: ${{ steps.build-verify-checksum.outputs.need_push == 'true' }}
