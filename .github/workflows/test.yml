@@ -5,7 +5,7 @@ on:
   push:
 
 jobs:
-  test-main:
+  test-gradle-main:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Blade
@@ -14,7 +14,20 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          blade init -v 7.4 liferay-workspace
+          blade init -v 7.4 liferay-gradle-workspace
       - uses: lgdd/liferay-build-action@main
         with:
-          workspace-directory: ./liferay-workspace
+          workspace-directory: ./liferay-gradle-workspace
+  test-maven-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Blade
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+          echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+      - name: Create Liferay Workspace
+        run: |
+          blade init -v 7.4 -b maven liferay-maven-workspace
+      - uses: lgdd/liferay-build-action@main
+        with:
+          workspace-directory: ./liferay-maven-workspace
