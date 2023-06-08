@@ -39,6 +39,8 @@ runs:
       shell: bash
       run: |
         curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+        echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+        blade version
     - name: Cache Gradle Packages
       uses: actions/cache@v3
       with:
