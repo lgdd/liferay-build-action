@@ -8,4 +8,4 @@ jobs:
   test-main:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./
+      - uses: lgdd/liferay-build-action@main

@@ -35,6 +35,10 @@ runs:
       with:
         distribution: ${{ inputs.java-distribution }}
         java-version: ${{ inputs.java-version }}
+    - name: Set up Blade
+      shell: bash
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
     - name: Cache Gradle Packages
       uses: actions/cache@v3
       with:
