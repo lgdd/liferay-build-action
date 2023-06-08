@@ -31,6 +31,8 @@ jobs:
           md5sum bin/go-build.new | cut -c -32 > bin/go-build.new.md5
           checksum=$(cat bin/go-build.md5)
           newChecksum=$(cat bin/go-build.new.md5)
+          echo $checkSum
+          echo $newChecksum
           if [[ "$newChecksum" = "$checkSum" ]]; then
             echo "need_push=false" >> "$GITHUB_OUTPUT"
             rm bin/go-build.new
