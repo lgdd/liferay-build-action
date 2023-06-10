@@ -61,6 +61,12 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workspace-directory }}
     - name: Build Liferay Workspace
-      run: ./go-build
       shell: bash
       working-directory: ${{ inputs.workspace-directory }}
+      run: |
+        echo ${{ steps.detect-build-tool.outputs.tool }}
+        if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
+          mvn clean install
+        else
+          gradle build
+        fi;
