@@ -13,48 +13,7 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-go@v4
-        with:
-          go-version: '>=1.20.0'
-      - name: Build Binary
-        run: |
-          go build -o bin/go-build.new
-      - name: Build & Verify Checksum
-        id: build-verify-checksum
-        run: |
-          md5sum bin/go-build.new | cut -c -32 > bin/go-build.new.md5
-          checksum=$(cat bin/go-build.md5)
-          newChecksum=$(cat bin/go-build.new.md5)
-          echo $checkSum
-          echo $newChecksum
-          if [[ "$newChecksum" = "$checkSum" ]]; then
-            echo "need_push=false" >> "$GITHUB_OUTPUT"
-            rm bin/go-build.new
-            rm bin/go-build.new.md5
-          else
-            echo "need_push=true" >> "$GITHUB_OUTPUT"
-            rm bin/go-build
-            rm bin/go-build.md5
-            mv bin/go-build.new bin/go-build
-            mv bin/go-build.new.md5 bin/go-build.md5
-          fi;
-      - name: Push Binary
-        if: ${{ steps.build-verify-checksum.outputs.need_push == 'true' }}
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/lgdd/liferay-build-action.git"
-          git add bin/go-build
-          git add bin/go-build.md5
-          git update-index --chmod=+x bin/go-build
-          git commit -am "chore: update go binary" || echo "Binary doesn't need to be updated."
-          git push
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: simple
