@@ -30,12 +30,22 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Detect Build Tool
+      id: detect-build-tool
+      shell: bash
+      working-directory: ${{ inputs.workspace-directory }}
+      run: |
+        if [ -f "pom.xml" ]; then
+          echo "tool=maven" >> "$GITHUB_OUTPUT"
+        else
+          echo "tool=gradle" >> "$GITHUB_OUTPUT"
+        fi;
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: ${{ inputs.java-distribution }}
         java-version: ${{ inputs.java-version }}
-        cache: "gradle"
+        cache: "${{ steps.detect-build-tool.outputs.tool }}"
     - name: Set up Blade
       shell: bash
       run: |
