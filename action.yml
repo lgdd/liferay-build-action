@@ -68,5 +68,5 @@ runs:
         if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
           mvn clean install
         else
-          gradle build
+          ./gradlew build
         fi;
