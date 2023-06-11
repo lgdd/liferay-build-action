@@ -14,9 +14,10 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          mkdir liferay-gradle-workpace
           blade init -v 7.4 liferay-gradle-workspace
-          cd liferay-gradle-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-gradle-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
@@ -35,7 +36,9 @@ jobs:
         run: |
           mkdir liferay-gradle-workpace
           blade init -v 7.4 liferay-gradle-workspace
-          cd liferay-gradle-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-gradle-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
@@ -54,7 +57,9 @@ jobs:
         run: |
           mkdir liferay-gradle-workpace
           blade init -v 7.4 liferay-gradle-workspace
-          cd liferay-gradle-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-gradle-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
@@ -71,9 +76,10 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          mkdir liferay-maven-workpace
           blade init -v 7.4 -b maven liferay-maven-workspace
-          cd liferay-maven-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-maven-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
@@ -90,9 +96,10 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          mkdir liferay-maven-workpace
           blade init -v 7.4 -b maven liferay-maven-workspace
-          cd liferay-maven-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-maven-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
@@ -109,9 +116,10 @@ jobs:
           echo "/home/runner/jpm/bin" >> $GITHUB_PATH
       - name: Create Liferay Workspace
         run: |
-          mkdir liferay-maven-workpace
           blade init -v 7.4 -b maven liferay-maven-workspace
-          cd liferay-maven-workpace
+      - name: Create Portlet
+        working-directory: ./liferay-maven-workspace
+        run: |
           blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
