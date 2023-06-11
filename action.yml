@@ -1,7 +1,7 @@
 name: "Liferay Build"
-description: ""
+description: >
+  Build your Liferay workspace (Gradle or Maven), and create the bundle and artifacts to be used later.
 author: "lgdd"
-
 branding:
   icon: "loader"
   color: "blue"
