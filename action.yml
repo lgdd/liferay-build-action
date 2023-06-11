@@ -93,7 +93,7 @@ runs:
           mvn bundle-support:deploy
           mvn bundle-support:dist -Dliferay.workspace.environment=${{ inputs.profile }}
           bundleName=$(ls target)
-          echo "bundle-path=${{ inputs.workspace-directory }}/$bundleName" >> "$GITHUB_OUTPUT"
+          echo "bundle-path=${{ inputs.workspace-directory }}/target/$bundleName" >> "$GITHUB_OUTPUT"
         else
           ./gradlew deploy
           ./gradlew distBundleZip -Pliferay.workspace.environment=${{ inputs.profile }}
