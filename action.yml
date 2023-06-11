@@ -11,14 +11,14 @@ inputs:
     description: >
       Java version (default: '11')
       Check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix.
-    required: true
+    required: false
     default: "11"
   java-distribution:
     description: >
       Java distribution (default: 'zulu')
       List of supported distributions for the setup-java action: https://github.com/actions/setup-java#supported-distributions
       Also check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix
-    required: true
+    required: false
     default: "zulu"
   profile:
     description: >
@@ -33,8 +33,7 @@ inputs:
   upload-artifacts:
     description: >
       Boolean to determine if artifacts should be uploaded in the workflow (e.g. to be used in a release).
-    required: false
-    default: "false"
+    required: true
   retention-days:
     description: >
       Number of days to retain uploaded artifacts (i.e. bundle and modules) in the workflow (default: '7').
@@ -95,7 +94,8 @@ runs:
           ./gradlew deploy
           ./gradlew distBundleZip -Pliferay.workspace.environment=${{ inputs.profile }}
           bundleName=$(ls build | grep ".zip")
-          echo "bundle-path=${{ inputs.workspace-directory }}/$bundleName" >> "$GITHUB_OUTPUT"
+          echo $bundleName
+          echo "bundle-path=${{ inputs.workspace-directory }}/build/$bundleName" >> "$GITHUB_OUTPUT"
         fi;
     - name: Upload Bundle
       if: ${{ inputs.upload-artifacts == 'true' }}
