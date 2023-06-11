@@ -108,6 +108,8 @@ runs:
       working-directory: ${{ inputs.workspace-directory }}
       run: |
         mkdir -p bundles/deploy
+        mkdir -p bundles/osgi/modules
+        mkdir -p bundles/osgi/client-extensions
         if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
           mvn bundle-support:deploy
         else
