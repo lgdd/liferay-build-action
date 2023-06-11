@@ -30,9 +30,13 @@ inputs:
       It will be use in this actions steps for the 'working-directory' directive.
     required: false
     default: .
+  upload-bundle:
+    description: >
+      Boolean to determine if the bundle should be uploaded in the workflow (e.g. to be used in a release).
+    required: true
   upload-artifacts:
     description: >
-      Boolean to determine if artifacts should be uploaded in the workflow (e.g. to be used in a release).
+      Boolean to determine if all modules (e.g. client extensions, osgi modules, themes) should be uploaded in the workflow (e.g. to be used in a release).
     required: true
   retention-days:
     description: >
@@ -79,8 +83,8 @@ runs:
         else
           ./gradlew build
         fi;
-    - name: Create Artifacts
-      if: ${{ inputs.upload-artifacts == 'true' }}
+    - name: Create Bundle
+      if: ${{ inputs.upload-bundle == 'true' }}
       id: create-artifacts
       shell: bash
       working-directory: ${{ inputs.workspace-directory }}
@@ -97,31 +101,31 @@ runs:
           echo $bundleName
           echo "bundle-path=${{ inputs.workspace-directory }}/build/$bundleName" >> "$GITHUB_OUTPUT"
         fi;
-    - name: Upload Bundle
+    - name: Create Artifacts
       if: ${{ inputs.upload-artifacts == 'true' }}
+      id: create-artifacts
+      shell: bash
+      working-directory: ${{ inputs.workspace-directory }}
+      run: |
+        mkdir -p bundles/deploy
+        if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
+          mvn bundle-support:deploy
+        else
+          ./gradlew deploy
+        fi;
+        mv bundles/osgi/modules/* bundles/deploy
+        mv bundles/osgi/client-extensions/* bundles/deploy
+    - name: Upload Bundle
+      if: ${{ inputs.upload-bundle == 'true' }}
       uses: actions/upload-artifact@v3
       with:
         name: bundle
         path: ${{ steps.create-artifacts.outputs.bundle-path }}
         retention-days: ${{ inputs.retention-days }}
-    - name: Upload Modules
+    - name: Upload Artifacts
       if: ${{ inputs.upload-artifacts == 'true' }}
       uses: actions/upload-artifact@v3
       with:
         name: modules
-        path: ${{ inputs.workspace-directory }}/bundles/osgi/modules
-        retention-days: ${{ inputs.retention-days }}
-    - name: Upload WARs
-      if: ${{ inputs.upload-artifacts == 'true' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: wars
-        path: ${{ inputs.workspace-directory }}/bundles/deploys
-        retention-days: ${{ inputs.retention-days }}
-    - name: Client Extensions
-      if: ${{ inputs.upload-artifacts == 'true' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: modules
-        path: ${{ inputs.workspace-directory }}/bundles/osgi/client-extensions
+        path: ${{ inputs.workspace-directory }}/bundles/deploy
         retention-days: ${{ inputs.retention-days }}
