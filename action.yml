@@ -81,7 +81,7 @@ runs:
           ./gradlew build
         fi;
     - name: Create Artifacts
-      if: ${{ inputs.upload-artifacts }}
+      if: ${{ inputs.upload-artifacts == "true" }}
       id: create-artifacts
       shell: bash
       working-directory: ${{ inputs.workspace-directory }}
@@ -98,28 +98,28 @@ runs:
           echo "bundle-path=${{ inputs.workspace-directory }}/$bundleName" >> "$GITHUB_OUTPUT"
         fi;
     - name: Upload Bundle
-      if: ${{ inputs.upload-artifacts }}
+      if: ${{ inputs.upload-artifacts == "true" }}
       uses: actions/upload-artifact@v3
       with:
         name: bundle
         path: ${{ steps.create-artifacts.outputs.bundle-path }}
         retention-days: ${{ inputs.retention-days }}
     - name: Upload Modules
-      if: ${{ inputs.upload-artifacts }}
+      if: ${{ inputs.upload-artifacts == "true" }}
       uses: actions/upload-artifact@v3
       with:
         name: modules
         path: ${{ inputs.workspace-directory }}/bundles/osgi/modules
         retention-days: ${{ inputs.retention-days }}
     - name: Upload WARs
-      if: ${{ inputs.upload-artifacts }}
+      if: ${{ inputs.upload-artifacts == "true" }}
       uses: actions/upload-artifact@v3
       with:
         name: wars
         path: ${{ inputs.workspace-directory }}/bundles/deploys
         retention-days: ${{ inputs.retention-days }}
     - name: Client Extensions
-      if: ${{ inputs.upload-artifacts }}
+      if: ${{ inputs.upload-artifacts == "true" }}
       uses: actions/upload-artifact@v3
       with:
         name: modules
