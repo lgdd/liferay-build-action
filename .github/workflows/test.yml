@@ -63,5 +63,5 @@ jobs:
       - uses: lgdd/liferay-build-action@main
         with:
           profile: 'prod'
-          upload-artifacts: false
+          upload-artifacts: true
           workspace-directory: ./liferay-maven-workspace
