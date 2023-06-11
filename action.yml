@@ -115,8 +115,12 @@ runs:
         else
           ./gradlew deploy
         fi;
-        mv bundles/osgi/modules/* bundles/deploy
-        mv bundles/osgi/client-extensions/* bundles/deploy
+        if [ -n "$(ls -A bundles/osgi/modules)" ]; then
+          mv bundles/osgi/modules/* bundles/deploy
+        fi;
+        if [ -n "$(ls -A bundles/osgi/client-extensions)" ]; then
+          mv bundles/osgi/client-extensions/* bundles/deploy
+        fi;
     - name: Upload Bundle
       if: ${{ inputs.upload-bundle == 'true' }}
       uses: actions/upload-artifact@v3
