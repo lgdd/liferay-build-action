@@ -46,6 +46,11 @@ jobs:
           upload-bundle: true
           upload-artifacts: false
           workspace-directory: ./liferay-gradle-workspace
+      - uses: actions/download-artifact@v3
+        with:
+          name: bundle
+      - run: |
+          ls -l
   test-gradle-build-upload-artifacts--main:
     runs-on: ubuntu-latest
     steps:
@@ -67,6 +72,11 @@ jobs:
           upload-bundle: false
           upload-artifacts: true
           workspace-directory: ./liferay-gradle-workspace
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+      - run: |
+          ls -l
   test-maven-build-only--main:
     runs-on: ubuntu-latest
     steps:
@@ -107,6 +117,11 @@ jobs:
           upload-bundle: true
           upload-artifacts: false
           workspace-directory: ./liferay-maven-workspace
+      - uses: actions/download-artifact@v3
+        with:
+          name: bundle
+      - run: |
+          ls -l
   test-maven-build-upload-artifacts--main:
     runs-on: ubuntu-latest
     steps:
@@ -127,3 +142,8 @@ jobs:
           upload-bundle: false
           upload-artifacts: true
           workspace-directory: ./liferay-maven-workspace
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+      - run: |
+          ls -l
