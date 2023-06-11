@@ -15,12 +15,16 @@ jobs:
       - name: Create Liferay Workspace
         run: |
           blade init -v 7.4 liferay-gradle-workspace
+          blade init -v 7.4 liferay-gradle-workspace
+          cd liferay-gradle-workpace
+          blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
           profile: 'prod'
+          upload-bundle: false
           upload-artifacts: false
           workspace-directory: ./liferay-gradle-workspace
-  test-gradle-build-upload--main:
+  test-gradle-build-upload-bundle--main:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Blade
@@ -30,9 +34,30 @@ jobs:
       - name: Create Liferay Workspace
         run: |
           blade init -v 7.4 liferay-gradle-workspace
+          cd liferay-gradle-workpace
+          blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
           profile: 'prod'
+          upload-bundle: true
+          upload-artifacts: false
+          workspace-directory: ./liferay-gradle-workspace
+  test-gradle-build-upload-artifacts--main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Blade
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+          echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+      - name: Create Liferay Workspace
+        run: |
+          blade init -v 7.4 liferay-gradle-workspace
+          cd liferay-gradle-workpace
+          blade create -t mvc-portlet my-mvc-portlet
+      - uses: lgdd/liferay-build-action@main
+        with:
+          profile: 'prod'
+          upload-bundle: false
           upload-artifacts: true
           workspace-directory: ./liferay-gradle-workspace
   test-maven-build-only--main:
@@ -45,12 +70,15 @@ jobs:
       - name: Create Liferay Workspace
         run: |
           blade init -v 7.4 -b maven liferay-maven-workspace
+          cd liferay-maven-workpace
+          blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
           profile: 'prod'
+          upload-bundle: false
           upload-artifacts: false
           workspace-directory: ./liferay-maven-workspace
-  test-maven-build-upload--main:
+  test-maven-build-upload-bundle--main:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Blade
@@ -60,8 +88,29 @@ jobs:
       - name: Create Liferay Workspace
         run: |
           blade init -v 7.4 -b maven liferay-maven-workspace
+          cd liferay-maven-workpace
+          blade create -t mvc-portlet my-mvc-portlet
       - uses: lgdd/liferay-build-action@main
         with:
           profile: 'prod'
+          upload-bundle: true
+          upload-artifacts: false
+          workspace-directory: ./liferay-maven-workspace
+  test-maven-build-upload-artifacts--main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Blade
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+          echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+      - name: Create Liferay Workspace
+        run: |
+          blade init -v 7.4 -b maven liferay-maven-workspace
+          cd liferay-maven-workpace
+          blade create -t mvc-portlet my-mvc-portlet
+      - uses: lgdd/liferay-build-action@main
+        with:
+          profile: 'prod'
+          upload-bundle: false
           upload-artifacts: true
           workspace-directory: ./liferay-maven-workspace
