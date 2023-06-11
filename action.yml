@@ -128,6 +128,6 @@ runs:
       if: ${{ inputs.upload-artifacts == 'true' }}
       uses: actions/upload-artifact@v3
       with:
-        name: modules
+        name: artifacts
         path: ${{ inputs.workspace-directory }}/bundles/deploy
         retention-days: ${{ inputs.retention-days }}
