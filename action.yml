@@ -20,12 +20,32 @@ inputs:
       Also check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix
     required: true
     default: "zulu"
+  profile:
+    description: >
+      Name of the config folder corresponding to the environment it should be build for (e.g. local, uat, prod).
+    required: true
   workspace-directory:
     description: >
       Path to your workspace if different from root directory.
       It will be use in this actions steps for the 'working-directory' directive.
     required: false
     default: .
+  upload-artifacts:
+    description: >
+      Boolean to determine if artifacts should be uploaded in the workflow (e.g. to be used in a release).
+    required: false
+    default: "false"
+  retention-days:
+    description: >
+      Number of days to retain uploaded artifacts (i.e. bundle and modules) in the workflow (default: '7').
+      More information: https://docs.github.com/en/organizations/managing-organization-settings/configuring-the-retention-period-for-github-actions-artifacts-and-logs-in-your-organization
+    required: false
+    default: "7"
+
+outputs:
+  bundle-path:
+    description: "Relative path from the workspace to the archived bundle"
+    value: ${{ steps.create-artifacts.outputs.bundle-path }}
 
 runs:
   using: composite
@@ -55,9 +75,53 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workspace-directory }}
       run: |
-        echo ${{ steps.detect-build-tool.outputs.tool }}
         if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
           mvn clean install
         else
           ./gradlew build
         fi;
+    - name: Create Artifacts
+      if: ${{ inputs.upload-artifacts }}
+      id: create-artifacts
+      shell: bash
+      working-directory: ${{ inputs.workspace-directory }}
+      run: |
+        if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
+          mvn bundle-support:deploy
+          mvn bundle-support:dist -Dliferay.workspace.environment=${{ inputs.profile }}
+          bundleName=$(ls target)
+          echo "bundle-path=${{ inputs.workspace-directory }}/$bundleName" >> "$GITHUB_OUTPUT"
+        else
+          ./gradlew deploy
+          ./gradlew distBundleZip -Pliferay.workspace.environment=${{ inputs.profile }}
+          bundleName=$(ls build | grep ".zip")
+          echo "bundle-path=${{ inputs.workspace-directory }}/$bundleName" >> "$GITHUB_OUTPUT"
+        fi;
+    - name: Upload Bundle
+      if: ${{ inputs.upload-artifacts }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: bundle
+        path: ${{ steps.create-artifacts.outputs.bundle-path }}
+        retention-days: ${{ inputs.retention-days }}
+    - name: Upload Modules
+      if: ${{ inputs.upload-artifacts }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: modules
+        path: ${{ inputs.workspace-directory }}/bundles/osgi/modules
+        retention-days: ${{ inputs.retention-days }}
+    - name: Upload WARs
+      if: ${{ inputs.upload-artifacts }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: wars
+        path: ${{ inputs.workspace-directory }}/bundles/deploys
+        retention-days: ${{ inputs.retention-days }}
+    - name: Client Extensions
+      if: ${{ inputs.upload-artifacts }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: modules
+        path: ${{ inputs.workspace-directory }}/bundles/osgi/client-extensions
+        retention-days: ${{ inputs.retention-days }}
