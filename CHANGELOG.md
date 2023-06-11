@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/lgdd/liferay-build-action/compare/v1.0.0...v1.0.1) (2023-06-11)
+
+
+### Bug Fixes
+
+* **ci:** missing checkout step ([a9c1ed4](https://github.com/lgdd/liferay-build-action/commit/a9c1ed44ccb4e873dbde7305dab26b446af6d4ce))
+
 ## 1.0.0 (2023-06-11)
 
 
