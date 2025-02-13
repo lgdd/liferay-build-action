@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.0](https://github.com/lgdd/liferay-build-action/compare/v1.0.0...v2.0.0) (2025-02-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* change default java version to 17
+* update artifact name to include java version
+* upgrade deprecated actions
+
+### Bug Fixes
+
+* artifact already exists ([a352494](https://github.com/lgdd/liferay-build-action/commit/a35249465ac1f267a7fe132f0ce71bd4874e830d))
+* **ci:** missing checkout step ([a9c1ed4](https://github.com/lgdd/liferay-build-action/commit/a9c1ed44ccb4e873dbde7305dab26b446af6d4ce))
+* **ci:** wrong artifact name ([23a778c](https://github.com/lgdd/liferay-build-action/commit/23a778c6ea8734d701d09dbbc36d089f67f3ed4e))
+
+
+### Miscellaneous Chores
+
+* change default java version to 17 ([f2bf1cf](https://github.com/lgdd/liferay-build-action/commit/f2bf1cfef552e22c56bc077cc97e585846334e88))
+* update artifact name to include java version ([e06ce39](https://github.com/lgdd/liferay-build-action/commit/e06ce396cf35fb213b6ede5f7edc961c0bb9fb0b))
+* upgrade deprecated actions ([a816a1f](https://github.com/lgdd/liferay-build-action/commit/a816a1f145f4a526e264afd077e91096753a1e25))
+
 ## 1.0.0 (2023-06-11)
 
 
