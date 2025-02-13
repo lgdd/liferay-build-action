@@ -125,7 +125,7 @@ runs:
       if: ${{ inputs.upload-bundle == 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: bundle
+        name: bundle--jdk-${{ inputs.java-version }}
         path: ${{ steps.create-bundle.outputs.bundle-path }}
         retention-days: ${{ inputs.retention-days }}
         overwrite: true
@@ -133,7 +133,7 @@ runs:
       if: ${{ inputs.upload-artifacts == 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifacts--jdk-${{ inputs.java-version }}
         path: ${{ inputs.workspace-directory }}/bundles/deploy
         retention-days: ${{ inputs.retention-days }}
         overwrite: true
