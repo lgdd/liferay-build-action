@@ -30,6 +30,11 @@ inputs:
       It will be use in this actions steps for the 'working-directory' directive.
     required: false
     default: .
+  build-extra-args:
+    description: >
+      Additional arguments to run with the build command for Maven or Gradle (e.g. -DskipTests=true or -x :modules:exclude-me:build)
+    required: false
+    default: ''
   upload-bundle:
     description: >
       Boolean to determine if the bundle should be uploaded in the workflow (e.g. to be used in a release).
@@ -79,9 +84,9 @@ runs:
       working-directory: ${{ inputs.workspace-directory }}
       run: |
         if [ ${{ steps.detect-build-tool.outputs.tool }} == "maven" ]; then
-          mvn clean install
+          mvn clean install ${{ inputs.build-extra-args }}
         else
-          ./gradlew build
+          ./gradlew build ${{ inputs.build-extra-args }}
         fi;
     - name: Create Bundle
       if: ${{ inputs.upload-bundle == 'true' }}

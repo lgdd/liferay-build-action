@@ -25,6 +25,31 @@ jobs:
           upload-bundle: false
           upload-artifacts: false
           workspace-directory: ./liferay-gradle-workspace
+  test-gradle-build-only-extra-args--main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Blade
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | bash
+          echo "/home/runner/jpm/bin" >> $GITHUB_PATH
+      - name: Create Liferay Workspace
+        run: |
+          blade init -v 7.4 liferay-gradle-workspace
+      - name: Create Portlet
+        working-directory: ./liferay-gradle-workspace
+        run: |
+          blade create -t mvc-portlet my-mvc-portlet
+      - name: Create Another Portlet
+        working-directory: ./liferay-gradle-workspace
+        run: |
+          blade create -t mvc-portlet exclude-me
+      - uses: lgdd/liferay-build-action@main
+        with:
+          build-extra-args: '-x :modules:exclude-me:build'
+          profile: 'prod'
+          upload-bundle: false
+          upload-artifacts: false
+          workspace-directory: ./liferay-gradle-workspace
   test-gradle-build-upload-bundle--main:
     runs-on: ubuntu-latest
     steps:
