@@ -9,10 +9,10 @@ branding:
 inputs:
   java-version:
     description: >
-      Java version (default: '11')
+      Java version (default: '17')
       Check Liferay compatibility matrix: https://www.liferay.com/compatibility-matrix.
     required: false
-    default: "11"
+    default: "17"
   java-distribution:
     description: >
       Java distribution (default: 'zulu')
