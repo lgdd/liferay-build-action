@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/lgdd/liferay-build-action/compare/v2.0.0...v2.1.0) (2025-02-13)
+
+
+### Features
+
+* add new parameter build-extra-args ([ac493a5](https://github.com/lgdd/liferay-build-action/commit/ac493a55923df1867c57b2250b7dfd6d9ffad8f7))
+
 ## [2.0.0](https://github.com/lgdd/liferay-build-action/compare/v1.0.0...v2.0.0) (2025-02-13)
 
 
