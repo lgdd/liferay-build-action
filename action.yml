@@ -123,14 +123,14 @@ runs:
         fi;
     - name: Upload Bundle
       if: ${{ inputs.upload-bundle == 'true' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: bundle
         path: ${{ steps.create-bundle.outputs.bundle-path }}
         retention-days: ${{ inputs.retention-days }}
     - name: Upload Artifacts
       if: ${{ inputs.upload-artifacts == 'true' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts
         path: ${{ inputs.workspace-directory }}/bundles/deploy
