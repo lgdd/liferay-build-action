@@ -128,6 +128,7 @@ runs:
         name: bundle
         path: ${{ steps.create-bundle.outputs.bundle-path }}
         retention-days: ${{ inputs.retention-days }}
+        overwrite: true
     - name: Upload Artifacts
       if: ${{ inputs.upload-artifacts == 'true' }}
       uses: actions/upload-artifact@v4
@@ -135,3 +136,4 @@ runs:
         name: artifacts
         path: ${{ inputs.workspace-directory }}/bundles/deploy
         retention-days: ${{ inputs.retention-days }}
+        overwrite: true
