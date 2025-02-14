@@ -5,7 +5,7 @@
 ## v2
 
 ### New
-- **build-extra-args**: this new parameter allows you to pass extra arguments to the build step of this action. For example, if you to skip tests with Gradle you can now add `build-extra-args: '-x test'`, and if you're using Maven you would add `build-extra-args: '-DskipTests=true'`.
+- **build-extra-args**: this new parameter allows you to pass extra arguments to the build step of this action. For example, if you want to skip tests with Gradle you can now add `build-extra-args: '-x test'`, and if you're using Maven you would add `build-extra-args: '-DskipTests=true'`.
 
 ### Breaking Changes
 #### GitHub Actions Artifact Changes
@@ -56,8 +56,7 @@ You can use this action in a [GitHub Actions Workflow](https://help.github.com/e
 #### Build on push & pull request
 
 ```yaml
-name: liferay-workspace-build
-run-name: Liferay Workspace Build
+name: Liferay Workspace Build
 
 on:
   push:
@@ -78,8 +77,7 @@ jobs:
 #### Release with bundle only
 
 ```yaml
-name: liferay-workspace-release
-run-name: Liferay Workspace Release
+name: Liferay Workspace Release
 
 on:
   push:
@@ -111,8 +109,7 @@ jobs:
 #### Release with artifacts only
 
 ```yaml
-name: liferay-workspace-release
-run-name: Liferay Workspace Release
+name: Liferay Workspace Release
 
 on:
   push:
